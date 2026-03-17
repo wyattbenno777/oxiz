@@ -2360,7 +2360,7 @@ impl Solver {
             }
             self.arith = ArithSolver::lia(); // Keep LIA as fallback for linear constraints
             #[cfg(feature = "tracing")]
-            tracing::info!("Using NLSAT solver for QF_NIA (nonlinear integer arithmetic)");
+            //tracing::info!("Using NLSAT solver for QF_NIA (nonlinear integer arithmetic)");
         } else if logic.contains("NRA") {
             // Nonlinear real arithmetic - use NLSAT with real mode
             #[cfg(feature = "std")]
@@ -2369,7 +2369,7 @@ impl Solver {
             }
             self.arith = ArithSolver::lra(); // Keep LRA as fallback for linear constraints
             #[cfg(feature = "tracing")]
-            tracing::info!("Using NLSAT solver for QF_NRA (nonlinear real arithmetic)");
+            //tracing::info!("Using NLSAT solver for QF_NRA (nonlinear real arithmetic)");
         } else if logic.contains("LIA") || logic.contains("IDL") {
             // Integer arithmetic logic (QF_LIA, LIA, QF_AUFLIA, QF_IDL, etc.)
             self.arith = ArithSolver::lia();

@@ -459,19 +459,19 @@ impl<'a> DistributedCoordinator<'a> {
             let shared = Arc::clone(&self.shared);
             let _config = self.config.worker_config.clone();
             let handle = thread::spawn(move || {
-                tracing::debug!("Worker {} started", worker_id);
+                //tracing::debug!("Worker {} started", worker_id);
 
                 // Worker loop: process work items until termination
                 loop {
                     // Check for shutdown message
                     if let Some(WorkerMessage::Shutdown) = shared.receive_message() {
-                        tracing::debug!("Worker {} received shutdown signal", worker_id);
+                        //tracing::debug!("Worker {} received shutdown signal", worker_id);
                         break;
                     }
 
                     // Check for termination
                     if shared.get_result().is_some() {
-                        tracing::debug!("Worker {} terminating (result found)", worker_id);
+                        //tracing::debug!("Worker {} terminating (result found)", worker_id);
                         break;
                     }
 
@@ -483,7 +483,7 @@ impl<'a> DistributedCoordinator<'a> {
                             if shared.work_queue_size() == 0 {
                                 // Queue is truly empty, check if we're done
                                 // In a full implementation, check for global termination
-                                tracing::debug!("Worker {} idle", worker_id);
+                                //tracing::debug!("Worker {} idle", worker_id);
                                 std::thread::sleep(Duration::from_millis(10));
                                 continue;
                             }
@@ -491,7 +491,7 @@ impl<'a> DistributedCoordinator<'a> {
                         }
                     };
 
-                    tracing::trace!("Worker {} processing POB {:?}", worker_id, work_item.pob_id);
+                    //trace!("Worker {} processing POB {:?}", worker_id, work_item.pob_id);
 
                     // Process the work item (POB)
                     // In a full implementation, this would:
@@ -519,7 +519,7 @@ impl<'a> DistributedCoordinator<'a> {
                     });
                 }
 
-                tracing::debug!("Worker {} finished", worker_id);
+                //tracing::debug!("Worker {} finished", worker_id);
             });
             handles.push(handle);
         }
@@ -534,7 +534,7 @@ impl<'a> DistributedCoordinator<'a> {
             if let Some(timeout) = self.config.timeout
                 && monitor_start.elapsed() >= timeout
             {
-                tracing::warn!("Distributed solving timed out");
+                //tracing::warn!("Distributed solving timed out");
                 self.shared.set_result(SpacerResult::Unknown);
                 break;
             }
@@ -549,12 +549,12 @@ impl<'a> DistributedCoordinator<'a> {
                         blocked,
                         lemma,
                     } => {
-                        tracing::trace!(
+                        /*tracing::trace!(
                             "Worker {} reported result for POB {:?}: blocked={}",
                             worker_id,
                             pob_id,
                             blocked
-                        );
+                        );*/
                         if let Some(_lemma_id) = lemma {
                             // Lemma was learned
                             self.shared.update_stats(|stats| {
@@ -573,12 +573,12 @@ impl<'a> DistributedCoordinator<'a> {
                         });
                     }
                     WorkerMessage::Counterexample { worker_id } => {
-                        tracing::info!("Worker {} found counterexample", worker_id);
+                       // tracing::info!("Worker {} found counterexample", worker_id);
                         self.shared.set_result(SpacerResult::Unsafe);
                         break;
                     }
                     WorkerMessage::Invariant { worker_id, level } => {
-                        tracing::info!("Worker {} found invariant at level {}", worker_id, level);
+                       // tracing::info!("Worker {} found invariant at level {}", worker_id, level);
                         self.shared.set_result(SpacerResult::Safe);
                         break;
                     }
@@ -596,7 +596,7 @@ impl<'a> DistributedCoordinator<'a> {
             if self.shared.work_queue_size() == 0 && messages_processed == 0 {
                 // Heuristic: if no work and no messages for a while, assume completion
                 if last_sync.elapsed() > Duration::from_millis(500) {
-                    tracing::debug!("No work remaining, assuming Unknown result");
+                    //tracing::debug!("No work remaining, assuming Unknown result");
                     self.shared.set_result(SpacerResult::Unknown);
                     break;
                 }

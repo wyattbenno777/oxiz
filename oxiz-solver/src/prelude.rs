@@ -38,6 +38,8 @@ pub(crate) type FxHashMap<K, V> =
 pub(crate) type FxHashSet<K> =
     hashbrown::HashSet<K, core::hash::BuildHasherDefault<rustc_hash::FxHasher>>;
 
+// --- no_std: suppress all I/O macros completely ---
+
 #[cfg(not(feature = "std"))]
 #[allow(unused_macros)]
 macro_rules! println {
@@ -56,9 +58,21 @@ macro_rules! eprintln {
 #[allow(unused_imports)]
 pub(crate) use eprintln;
 
-// Override eprintln! as a no-op in std mode too.
-// ZeroOS (Jolt zkVM guest runtime) does not support the stderr write syscall —
-// any attempt to write to stderr causes a trap and guest panic.
+// --- std mode: suppress stdout/stderr writes for ZeroOS compatibility ---
+// ZeroOS (Jolt zkVM guest runtime) does not support stdout/stderr write syscalls —
+// any attempt to write causes a trap and guest panic.
+
+#[cfg(feature = "std")]
+#[allow(unused_macros)]
+macro_rules! println {
+    ($($arg:tt)*) => {
+        let _ = format!($($arg)*);
+    };
+}
+#[cfg(feature = "std")]
+#[allow(unused_imports)]
+pub(crate) use println;
+
 #[cfg(feature = "std")]
 #[allow(unused_macros)]
 macro_rules! eprintln {

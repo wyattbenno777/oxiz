@@ -233,7 +233,7 @@ impl AutoTimer {
 
 impl Drop for AutoTimer {
     fn drop(&mut self) {
-        tracing::debug!("{}: {:.3}s", self.name, self.start.elapsed().as_secs_f64());
+       // tracing::debug!("{}: {:.3}s", self.name, self.start.elapsed().as_secs_f64());
     }
 }
 

@@ -467,7 +467,7 @@ impl<'a> ConcreteWitnessExtractor<'a> {
     ) -> Result<ConcreteWitness, WitnessError> {
         use tracing::debug;
 
-        debug!("Extracting concrete witness from {} states", cex.len());
+        // debug!("Extracting concrete witness from {} states", cex.len());
 
         if cex.is_empty() {
             return Err(WitnessError::EmptyTrace);
@@ -567,7 +567,7 @@ impl<'a> ConcreteWitnessExtractor<'a> {
     pub fn validate_witness(&self, witness: &ConcreteWitness) -> Result<bool, WitnessError> {
         use tracing::trace;
 
-        trace!("Validating witness with {} states", witness.states.len());
+       // trace!("Validating witness with {} states", witness.states.len());
 
         // Check that trace starts from initial state
         if let Some(first) = witness.states.first()
