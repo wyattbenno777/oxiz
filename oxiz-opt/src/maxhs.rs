@@ -335,7 +335,7 @@ mod tests {
 
         let result = solver.solve();
         if let Err(ref e) = result {
-            eprintln!("MaxHS error: {:?}", e);
+            //eprintln!("MaxHS error: {:?}", e);
         }
         assert!(result.is_ok(), "Solve failed: {:?}", result);
 
