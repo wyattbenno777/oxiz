@@ -294,14 +294,14 @@ impl Compressor {
         #[cfg(not(target_arch = "wasm32"))]
         if self.verbose {
             let ratio = compressed.len() as f64 / data.len() as f64;
-            eprintln!(
+            /*eprintln!(
                 "Compressed {} bytes -> {} bytes ({:.1}% reduction) using {} in {:.2}ms",
                 data.len(),
                 compressed.len(),
                 (1.0 - ratio) * 100.0,
                 format.name(),
                 end_time - start_time
-            );
+            );*/
         }
 
         Ok(compressed)

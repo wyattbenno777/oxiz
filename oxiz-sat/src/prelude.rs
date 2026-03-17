@@ -55,3 +55,17 @@ macro_rules! eprintln {
 #[cfg(not(feature = "std"))]
 #[allow(unused_imports)]
 pub(crate) use eprintln;
+
+// Override eprintln! as a no-op in std mode too.
+// ZeroOS (Jolt zkVM guest runtime) does not support the stderr write syscall —
+// any attempt to write to stderr causes a trap and guest panic.
+#[cfg(feature = "std")]
+#[allow(unused_macros)]
+macro_rules! eprintln {
+    ($($arg:tt)*) => {
+        let _ = format!($($arg)*);
+    };
+}
+#[cfg(feature = "std")]
+#[allow(unused_imports)]
+pub(crate) use eprintln;

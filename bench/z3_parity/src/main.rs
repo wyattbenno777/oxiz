@@ -243,7 +243,7 @@ fn main() -> Result<()> {
         .filter_map(|(logic, path)| match run_benchmark(logic, path) {
             Ok(result) => Some(result),
             Err(e) => {
-                eprintln!("Error running {}: {}", path.display(), e);
+                // eprintln!("Error running {}: {}", path.display(), e);
                 None
             }
         })

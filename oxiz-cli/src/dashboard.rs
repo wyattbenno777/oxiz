@@ -169,7 +169,7 @@ pub async fn start_dashboard_server(
         .with_state(state);
 
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
-    eprintln!("Dashboard server running at http://localhost:{}", port);
+    // eprintln!("Dashboard server running at http://localhost:{}", port);
 
     axum::serve(listener, app).await?;
 

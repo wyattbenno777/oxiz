@@ -444,13 +444,13 @@ fn main() -> Result<()> {
     let baseline = load_baseline(&baseline_path)?;
 
     if baseline.is_none() && !config.update_baseline {
-        eprintln!("Warning: No baseline file found at {}. Running benchmarks anyway.", baseline_path.display());
+       // eprintln!("Warning: No baseline file found at {}. Running benchmarks anyway.", baseline_path.display());
     }
 
     // Run benchmarks
-    eprintln!("Running benchmarks...");
+   // eprintln!("Running benchmarks...");
     let results = run_all_benchmarks();
-    eprintln!("Completed {} benchmarks.", results.len());
+    // eprintln!("Completed {} benchmarks.", results.len());
 
     // Compare against baseline
     let report = compare_results(&results, baseline.as_ref(), config.threshold_percent);
@@ -465,7 +465,7 @@ fn main() -> Result<()> {
     // Update baseline if requested
     if config.update_baseline {
         save_baseline(&baseline_path, &results)?;
-        eprintln!("Baseline updated at: {}", baseline_path.display());
+        // eprintln!("Baseline updated at: {}", baseline_path.display());
     }
 
     // Exit with appropriate code
