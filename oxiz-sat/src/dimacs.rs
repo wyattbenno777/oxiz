@@ -142,10 +142,10 @@ impl DimacsParser {
 
         // Verify we read the expected number of clauses
         if self.num_clauses > 0 && clauses_read != self.num_clauses {
-            eprintln!(
-                "Warning: Expected {} clauses but read {}",
-                self.num_clauses, clauses_read
-            );
+            //eprintln!(
+             //   "Warning: Expected {} clauses but read {}",
+             //   self.num_clauses, clauses_read
+            //);
         }
 
         Ok(())
