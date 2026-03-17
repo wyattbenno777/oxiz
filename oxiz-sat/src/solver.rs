@@ -1066,7 +1066,7 @@ impl Solver {
     fn analyze(&mut self, conflict: ClauseId) -> (u32, SmallVec<[Lit; 16]>) {
         // Debug: print conflict info
         if cfg!(debug_assertions) && self.num_vars <= 5 {
-            eprintln!("[ANALYZE] Conflict clause id={:?}", conflict);
+            //eprintln!("[ANALYZE] Conflict clause id={:?}", conflict);
             if let Some(c) = self.clauses.get(conflict) {
                 let lits_str: Vec<String> = c
                     .lits
@@ -1078,15 +1078,15 @@ impl Solver {
                         format!("{}v{}@{}={:?}", sign, lit.var().index(), level, val)
                     })
                     .collect();
-                eprintln!("[ANALYZE] Conflict clause: ({})", lits_str.join(" | "));
+                //eprintln!("[ANALYZE] Conflict clause: ({})", lits_str.join(" | "));
             }
-            eprintln!("[ANALYZE] Trail:");
+            //eprintln!("[ANALYZE] Trail:");
             for &lit in self.trail.assignments() {
                 let var = lit.var();
                 let level = self.trail.level(var);
                 let reason = self.trail.reason(var);
                 let sign = if lit.is_pos() { "" } else { "~" };
-                eprintln!("  {}v{}@{} reason={:?}", sign, var.index(), level, reason);
+                //eprintln!("  {}v{}@{} reason={:?}", sign, var.index(), level, reason);
             }
         }
 
@@ -1222,11 +1222,11 @@ impl Solver {
                     format!("{}v{}", sign, lit.var().index())
                 })
                 .collect();
-            eprintln!(
-                "[ANALYZE] Learned clause: ({}), backtrack_level={}",
-                lits_str.join(" | "),
-                backtrack_level
-            );
+            //eprintln!(
+            //    "[ANALYZE] Learned clause: ({}), backtrack_level={}",
+            //    lits_str.join(" | "),
+            //    backtrack_level
+            //);
         }
 
         (backtrack_level, self.learnt.clone())
@@ -2575,10 +2575,10 @@ impl Solver {
 
     /// Debug method: print all learned clauses
     pub fn debug_print_learned_clauses(&self) {
-        println!(
-            "=== Learned Clauses ({}) ===",
-            self.learned_clause_ids.len()
-        );
+        //println!(
+         //   "=== Learned Clauses ({}) ===",
+         //   self.learned_clause_ids.len()
+        //);
         for (i, &cid) in self.learned_clause_ids.iter().enumerate() {
             if let Some(clause) = self.clauses.get(cid)
                 && !clause.deleted
@@ -2595,19 +2595,19 @@ impl Solver {
                         }
                     })
                     .collect();
-                println!(
-                    "  Learned {}: ({}), LBD={}",
-                    i,
-                    lits.join(" | "),
-                    clause.lbd
-                );
+                //println!(
+                //    "  Learned {}: ({}), LBD={}",
+                 //   i,
+                //    lits.join(" | "),
+                //    clause.lbd
+                //);
             }
         }
     }
 
     /// Debug method: print binary implication graph entries
     pub fn debug_print_binary_graph(&self) {
-        println!("=== Binary Implication Graph ===");
+        //println!("=== Binary Implication Graph ===");
         for lit_code in 0..(self.num_vars * 2) {
             let lit = Lit::from_code(lit_code as u32);
             let implications = self.binary_graph.get(lit);
@@ -2623,7 +2623,7 @@ impl Solver {
                     } else {
                         format!("~v{}", implied.var().index())
                     };
-                    println!("  {} -> {}", lit_str, impl_str);
+                    //println!("  {} -> {}", lit_str, impl_str);
                 }
             }
         }
