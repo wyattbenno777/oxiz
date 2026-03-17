@@ -1068,7 +1068,7 @@ impl Solver {
     fn analyze(&mut self, conflict: ClauseId) -> (u32, SmallVec<[Lit; 16]>) {
         // Debug: print conflict info
         if cfg!(debug_assertions) && self.num_vars <= 5 {
-            eprintln!("[ANALYZE] Conflict clause id={:?}", conflict);
+            //eprintln!("[ANALYZE] Conflict clause id={:?}", conflict);
             if let Some(c) = self.clauses.get(conflict) {
                 let lits_str: Vec<String> = c
                     .lits
@@ -1080,15 +1080,15 @@ impl Solver {
                         format!("{}v{}@{}={:?}", sign, lit.var().index(), level, val)
                     })
                     .collect();
-                eprintln!("[ANALYZE] Conflict clause: ({})", lits_str.join(" | "));
+                //eprintln!("[ANALYZE] Conflict clause: ({})", lits_str.join(" | "));
             }
-            eprintln!("[ANALYZE] Trail:");
+            //eprintln!("[ANALYZE] Trail:");
             for &lit in self.trail.assignments() {
                 let var = lit.var();
                 let level = self.trail.level(var);
                 let reason = self.trail.reason(var);
                 let sign = if lit.is_pos() { "" } else { "~" };
-                eprintln!("  {}v{}@{} reason={:?}", sign, var.index(), level, reason);
+                //eprintln!("  {}v{}@{} reason={:?}", sign, var.index(), level, reason);
             }
         }
 
@@ -1224,11 +1224,11 @@ impl Solver {
                     format!("{}v{}", sign, lit.var().index())
                 })
                 .collect();
-            eprintln!(
-                "[ANALYZE] Learned clause: ({}), backtrack_level={}",
-                lits_str.join(" | "),
-                backtrack_level
-            );
+            //eprintln!(
+             //   "[ANALYZE] Learned clause: ({}), backtrack_level={}",
+              //  lits_str.join(" | "),
+              //  backtrack_level
+            //);
         }
 
         (backtrack_level, self.learnt.clone())
