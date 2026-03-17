@@ -311,7 +311,7 @@ pub(crate) fn run_interactive(ctx: &mut Context, args: &Args, verbosity: Verbosi
 
     let mut rl: Editor<SmtHighlighter, FileHistory> =
         Editor::with_config(config).unwrap_or_else(|e| {
-            eprintln_colored(args, &format!("Failed to initialize editor: {}", e));
+            // eprintln_colored(args, &format!("Failed to initialize editor: {}", e));
             std::process::exit(1);
         });
 
@@ -394,7 +394,7 @@ pub(crate) fn run_interactive(ctx: &mut Context, args: &Args, verbosity: Verbosi
                 break;
             }
             Err(err) => {
-                eprintln_colored(args, &format!("Error: {}", err));
+               // eprintln_colored(args, &format!("Error: {}", err));
                 break;
             }
         }

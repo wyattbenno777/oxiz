@@ -341,7 +341,7 @@ pub fn run_coordinator(
                     found_sat_clone,
                     all_done_clone,
                 ) {
-                    eprintln!("Worker {} error: {}", worker_id, e);
+                  //  eprintln!("Worker {} error: {}", worker_id, e);
                 }
                 workers_count_clone.fetch_sub(1, Ordering::SeqCst);
             });
@@ -360,7 +360,7 @@ pub fn run_coordinator(
                 .collect();
 
             for worker_id in dead_workers {
-                eprintln!("Worker {} timed out", worker_id);
+               // eprintln!("Worker {} timed out", worker_id);
                 if let Some(state) = workers_guard.remove(&worker_id) {
                     // Re-queue the cube if it was assigned
                     if let Some(cube_id) = state.current_cube {
@@ -624,7 +624,7 @@ pub fn run_worker(config: &DistributedConfig) -> Result<(), String> {
         while running_clone.load(Ordering::SeqCst) {
             thread::sleep(Duration::from_secs(heartbeat_interval));
             if let Err(e) = send_message_locked(&stream_clone, &Message::Heartbeat) {
-                eprintln!("Failed to send heartbeat: {}", e);
+               // eprintln!("Failed to send heartbeat: {}", e);
                 break;
             }
         }

@@ -40,7 +40,7 @@ pub(crate) fn run_files(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
     let files = collect_files(&args.input, args.recursive);
 
     if files.is_empty() {
-        eprintln_colored(args, "No files found matching the input patterns");
+       // eprintln_colored(args, "No files found matching the input patterns");
         std::process::exit(1);
     }
 
@@ -180,7 +180,7 @@ pub(crate) fn run_files(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
         if let Err(e) = tracker.save()
             && verbosity >= Verbosity::Normal
         {
-            eprintln_colored(args, &format!("Warning: Failed to save benchmarks: {}", e));
+           // eprintln_colored(args, &format!("Warning: Failed to save benchmarks: {}", e));
         }
     }
 
@@ -196,10 +196,10 @@ pub(crate) fn run_files(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
     if let Some(ref export_path) = args.export_stats {
         if let Err(e) = export_statistics(&stats, export_path, args) {
             if verbosity >= Verbosity::Normal {
-                eprintln_colored(
+                /*eprintln_colored(
                     args,
                     &format!("Warning: Failed to export statistics: {}", e),
-                );
+                );*/
             }
         } else if verbosity >= Verbosity::Normal {
             println_colored(
@@ -617,7 +617,7 @@ fn process_single_file(
 /// Process input from stdin
 pub(crate) fn run_stdin(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
     if verbosity >= Verbosity::Verbose {
-        eprintln_colored(args, "Reading from stdin...");
+       // eprintln_colored(args, "Reading from stdin...");
     }
 
     let stdin = io::stdin();
@@ -630,7 +630,7 @@ pub(crate) fn run_stdin(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
                 script.push('\n');
             }
             Err(e) => {
-                eprintln_colored(args, &format!("Error reading stdin: {}", e));
+                //eprintln_colored(args, &format!("Error reading stdin: {}", e));
                 std::process::exit(1);
             }
         }
@@ -691,7 +691,7 @@ pub(crate) fn run_watch(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
     let files = collect_files(&args.input, args.recursive);
 
     if files.is_empty() {
-        eprintln_colored(args, "No files found to watch");
+        //eprintln_colored(args, "No files found to watch");
         std::process::exit(1);
     }
 
@@ -711,7 +711,7 @@ pub(crate) fn run_watch(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
         }
     })
     .unwrap_or_else(|e| {
-        eprintln_colored(args, &format!("Failed to create watcher: {}", e));
+        //eprintln_colored(args, &format!("Failed to create watcher: {}", e));
         std::process::exit(1);
     });
 
@@ -733,7 +733,7 @@ pub(crate) fn run_watch(ctx: &mut Context, args: &Args, verbosity: Verbosity) {
                 run_files(ctx, args, verbosity);
             }
             Err(e) => {
-                eprintln_colored(args, &format!("Watch error: {}", e));
+                //eprintln_colored(args, &format!("Watch error: {}", e));
                 break;
             }
         }

@@ -370,12 +370,12 @@ impl SymbolStripper {
         }
         #[cfg(not(target_arch = "wasm32"))]
         if self.verbose {
-            eprintln!(
+            /*eprintln!(
                 "Symbol stripping: removed {} symbols, saved {} bytes ({:.1}%)",
                 symbols_stripped,
                 bytes_saved,
                 (bytes_saved as f64 / original_size as f64) * 100.0
-            );
+            );*/
         }
 
         StripResult {

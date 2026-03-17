@@ -168,7 +168,7 @@ impl UsefulnessPredictor {
         };
 
         if let Err(e) = self.model.train(&features.features, &[target]) {
-            eprintln!("Training error: {}", e);
+            //eprintln!("Training error: {}", e);
         }
 
         if feedback.was_useful {

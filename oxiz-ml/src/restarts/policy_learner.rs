@@ -145,7 +145,7 @@ impl RestartPolicyLearner {
         let target = if feedback.was_beneficial { 1.0 } else { 0.0 };
 
         if let Err(e) = self.model.train(&features.features, &[target]) {
-            eprintln!("Training error: {}", e);
+            //eprintln!("Training error: {}", e);
         }
 
         if feedback.was_beneficial {

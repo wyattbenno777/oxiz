@@ -215,7 +215,7 @@ impl BranchingLearner {
 
         if let Err(e) = self.model.train(&features.features, &target) {
             // Log error but don't fail
-            eprintln!("Training error: {}", e);
+           // eprintln!("Training error: {}", e);
         }
 
         // Validate prediction

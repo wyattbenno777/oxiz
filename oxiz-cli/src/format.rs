@@ -637,7 +637,7 @@ pub(crate) fn output_results(results: &[SolverResult], args: &Args, stats: &Solv
             for result in results {
                 if let Some(path) = args.output.as_ref() {
                     if let Err(e) = fs::write(path, &result.result) {
-                        eprintln_colored(args, &format!("Error writing output: {}", e));
+                       // eprintln_colored(args, &format!("Error writing output: {}", e));
                     }
                 } else if !result.result.is_empty() {
                     println!("{}", result.result);
@@ -654,7 +654,7 @@ pub(crate) fn output_results(results: &[SolverResult], args: &Args, stats: &Solv
 
             if let Some(path) = args.output.as_ref() {
                 if let Err(e) = fs::write(path, json) {
-                    eprintln_colored(args, &format!("Error writing output: {}", e));
+                   // eprintln_colored(args, &format!("Error writing output: {}", e));
                 }
             } else {
                 println!("{}", json);
@@ -677,7 +677,7 @@ pub(crate) fn output_results(results: &[SolverResult], args: &Args, stats: &Solv
 
             if let Some(path) = args.output.as_ref() {
                 if let Err(e) = fs::write(path, yaml) {
-                    eprintln_colored(args, &format!("Error writing output: {}", e));
+                   // eprintln_colored(args, &format!("Error writing output: {}", e));
                 }
             } else {
                 println!("{}", yaml);
@@ -727,14 +727,14 @@ pub(crate) fn export_statistics(
         _ => {
             // Default to JSON if extension is not recognized
             if !args.no_color {
-                eprintln!(
+               /* eprintln!(
                     "{}",
                     format!(
                         "Warning: Unknown extension '{}', defaulting to JSON format",
                         extension
                     )
                     .if_supports_color(Stream::Stderr, |t| t.yellow())
-                );
+                );*/
             }
             let json = serde_json::to_string_pretty(&stats)
                 .map_err(|e| format!("Failed to serialize JSON: {}", e))?;
@@ -1369,8 +1369,8 @@ pub(crate) fn println_colored(args: &Args, text: &str, color: Option<owo_colors:
 /// Print colored error message to stderr
 pub(crate) fn eprintln_colored(args: &Args, text: &str) {
     if args.no_color {
-        eprintln!("{}", text);
+       // eprintln!("{}", text);
     } else {
-        eprintln!("{}", text.if_supports_color(Stream::Stderr, |t| t.red()));
+       // eprintln!("{}", text.if_supports_color(Stream::Stderr, |t| t.red()));
     }
 }

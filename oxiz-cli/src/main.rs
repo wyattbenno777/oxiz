@@ -549,7 +549,7 @@ async fn main() {
         if let Some(ref arg) = section_arg
             && section.is_none()
         {
-            eprintln!("Error: Invalid tutorial section '{}'", arg);
+            //eprintln!("Error: Invalid tutorial section '{}'", arg);
             tutorial::list_tutorial_sections();
             std::process::exit(1);
         }
@@ -561,7 +561,7 @@ async fn main() {
     // Handle LSP mode
     if args.lsp {
         if let Err(e) = lsp::run_lsp_server().await {
-            eprintln!("LSP server error: {}", e);
+            //eprintln!("LSP server error: {}", e);
             std::process::exit(1);
         }
         return;
@@ -570,7 +570,7 @@ async fn main() {
     // Handle REST API server mode
     if args.server {
         if let Err(e) = server::run_server(args.port).await {
-            eprintln!("REST API server error: {}", e);
+           // eprintln!("REST API server error: {}", e);
             std::process::exit(1);
         }
         return;
@@ -580,7 +580,7 @@ async fn main() {
     if args.dashboard {
         let state = dashboard::DashboardState::new();
         if let Err(e) = dashboard::start_dashboard_server(state, args.dashboard_port).await {
-            eprintln!("Dashboard server error: {}", e);
+            //eprintln!("Dashboard server error: {}", e);
             std::process::exit(1);
         }
         return;
@@ -594,7 +594,7 @@ async fn main() {
             ..Default::default()
         };
         if let Err(e) = distributed::run_worker(&config) {
-            eprintln!("Worker error: {}", e);
+            //eprintln!("Worker error: {}", e);
             std::process::exit(1);
         }
         return;
@@ -614,7 +614,7 @@ async fn main() {
         } else {
             // Read from first input file
             fs::read_to_string(&args.input[0]).unwrap_or_else(|e| {
-                eprintln!("Failed to read input file: {}", e);
+                //eprintln!("Failed to read input file: {}", e);
                 std::process::exit(1);
             })
         };
@@ -630,7 +630,7 @@ async fn main() {
                 println!("{}", distributed::format_distributed_result(&result));
             }
             Err(e) => {
-                eprintln!("Coordinator error: {}", e);
+                //eprintln!("Coordinator error: {}", e);
                 std::process::exit(1);
             }
         }
@@ -657,7 +657,7 @@ async fn main() {
         };
         let subscriber = FmtSubscriber::builder().with_max_level(level).finish();
         if let Err(e) = tracing::subscriber::set_global_default(subscriber) {
-            eprintln_colored(&args, &format!("Failed to set tracing subscriber: {}", e));
+            //eprintln_colored(&args, &format!("Failed to set tracing subscriber: {}", e));
             std::process::exit(1);
         }
     }
@@ -819,7 +819,7 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                 export_path,
                 serde_json::to_string_pretty(&graph).unwrap_or_default(),
             ) {
-                eprintln!("Failed to export dependencies: {}", e);
+                //eprintln!("Failed to export dependencies: {}", e);
             } else if args.verbosity >= Verbosity::Normal {
                 println!("Dependency graph exported to {}", export_path.display());
             }
@@ -848,7 +848,7 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                 export_path,
                 serde_json::to_string_pretty(&result).unwrap_or_default(),
             ) {
-                eprintln!("Failed to export diagnostic report: {}", e);
+                //eprintln!("Failed to export diagnostic report: {}", e);
             } else if args.verbosity >= Verbosity::Normal {
                 println!("Diagnostic report exported to {}", export_path.display());
             }
@@ -890,10 +890,10 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
             "exact" => model_counter::CountingMethod::Exact,
             "approximate" => model_counter::CountingMethod::ApproximateSampling,
             _ => {
-                eprintln!(
+                /*eprintln!(
                     "Warning: Invalid count method '{}', using approximate",
                     args.count_method
-                );
+                );*/
                 model_counter::CountingMethod::ApproximateSampling
             }
         };
@@ -908,7 +908,7 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                 export_path,
                 serde_json::to_string_pretty(&result).unwrap_or_default(),
             ) {
-                eprintln!("Failed to export model count: {}", e);
+               // eprintln!("Failed to export model count: {}", e);
             } else if args.verbosity >= Verbosity::Normal {
                 println!("Model count exported to {}", export_path.display());
             }
@@ -1002,12 +1002,12 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                 if let Err(e) = std::fs::File::create(dot_path).and_then(|file| {
                     unsat_core::generate_proof_dot(proof_line, file).map_err(std::io::Error::other)
                 }) {
-                    eprintln_colored(args, &format!("Failed to generate proof DOT: {}", e));
+                   // eprintln_colored(args, &format!("Failed to generate proof DOT: {}", e));
                 } else if args.verbosity >= Verbosity::Verbose {
-                    eprintln_colored(
+                    /*eprintln_colored(
                         args,
                         &format!("Proof tree written to {}", dot_path.display()),
-                    );
+                    );*/
                 }
             }
 
@@ -1018,7 +1018,7 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                     match fs::read_to_string(proof_file) {
                         Ok(text) => text,
                         Err(e) => {
-                            eprintln_colored(args, &format!("Failed to read proof file: {}", e));
+                            //eprintln_colored(args, &format!("Failed to read proof file: {}", e));
                             String::new()
                         }
                     }
@@ -1043,26 +1043,26 @@ pub(crate) fn execute_and_format(ctx: &mut Context, script: &str, args: &Args) -
                         Ok(proof) => match proof.verify() {
                             Ok(()) => {
                                 if args.verbosity >= Verbosity::Verbose {
-                                    eprintln_colored(args, "; Proof verification: VALID");
+                                    //eprintln_colored(args, "; Proof verification: VALID");
                                     let core = proof.extract_unsat_core();
-                                    eprintln_colored(
+                                    /*eprintln_colored(
                                         args,
                                         &format!("; UNSAT core size: {}", core.len()),
-                                    );
+                                    );*/
                                 }
                                 output.insert(0, "; Proof verified: VALID".to_string());
                             }
                             Err(e) => {
-                                eprintln_colored(
+                                /*eprintln_colored(
                                     args,
                                     &format!("; Proof verification FAILED: {}", e),
-                                );
+                                );*/
                                 output.insert(0, format!("; Proof verification FAILED: {}", e));
                             }
                         },
                         Err(e) => {
                             if args.verbosity >= Verbosity::Verbose {
-                                eprintln_colored(args, &format!("; Failed to parse proof: {}", e));
+                                //eprintln_colored(args, &format!("; Failed to parse proof: {}", e));
                             }
                         }
                     }

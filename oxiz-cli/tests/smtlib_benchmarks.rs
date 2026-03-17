@@ -72,7 +72,7 @@ fn test_smtlib_benchmarks() {
     };
 
     if !bench_path.exists() {
-        eprintln!("Benchmark path does not exist: {}", bench_path.display());
+        //eprintln!("Benchmark path does not exist: {}", bench_path.display());
         return;
     }
 

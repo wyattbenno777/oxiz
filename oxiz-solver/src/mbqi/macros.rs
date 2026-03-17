@@ -31,7 +31,7 @@ macro_rules! mbqi_debug {
     ($($arg:tt)*) => {
         #[cfg(feature = "mbqi-debug")]
         {
-            eprintln!("[MBQI DEBUG] {}", format!($($arg)*));
+            //eprintln!("[MBQI DEBUG] {}", format!($($arg)*));
         }
     };
 }
@@ -42,7 +42,7 @@ macro_rules! mbqi_trace {
     ($($arg:tt)*) => {
         #[cfg(feature = "mbqi-trace")]
         {
-            eprintln!("[MBQI TRACE] {}", format!($($arg)*));
+            //eprintln!("[MBQI TRACE] {}", format!($($arg)*));
         }
     };
 }
